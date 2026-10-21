@@ -38,3 +38,9 @@ python3 -m http.server 8000
 ```
 
 Built by [Akash Vishwakarma](https://github.com/AKASH991833). Free to use — no sign-up, no card.
+
+
+## Stacks
+
+- **Live demo (this repo root):** HTML/CSS/JS + TensorFlow.js — trains a small CNN live in your browser, or loads the Python-trained model if `model/` is present.
+- **Python pipeline (`ml/`):** TensorFlow/Keras trains a proper CNN on full MNIST (~99% held-out) and exports TF.js weights the demo loads. See `ml/README.md` for run steps.

@@ -40,10 +40,26 @@ function buildModel(){
   m.compile({optimizer:'adam',loss:'categoricalCrossentropy',metrics:['accuracy']});
   return m;
 }
+async function tryPretrained(){
+  try{
+    const m=await tf.loadLayersModel('./model/model.json');
+    let meta=null;
+    try{meta=await (await fetch('./ml/metrics.json')).json()}catch(e){}
+    model=m;ready=true;
+    const acc=meta?meta.test_accuracy:null;
+    $('acc-pill').innerHTML=acc
+      ?`<span class="pill ok">Test accuracy ${(acc*100).toFixed(1)}%</span> <span class="hint">Python-trained CNN on full MNIST · measured on ${meta.test_samples.toLocaleString()} held-out digits</span>`
+      :`<span class="pill ok">Pretrained model loaded</span>`;
+    $('pad-hint').textContent='Draw a digit (0-9) with your mouse or finger.';
+    return true;
+  }catch(e){return false}
+}
 async function train(){
   $('prog-wrap').classList.remove('hidden');
   try{await tf.setBackend('cpu');await tf.ready()}catch(e){console.warn('backend',e)}
   const prog=(p,msg)=>{$('prog-bar').style.width=Math.round(p)+'%';$('prog-msg').textContent=msg};
+  prog(2,'Checking for the pretrained model…');
+  if(await tryPretrained()){$('prog-wrap').classList.add('hidden');return}
   prog(2,'Downloading MNIST (free Google-hosted dataset)…');
   await loadData(p=>prog(p,'Loading MNIST images… '+p+'%'));
   prog(45,'Building the network…');

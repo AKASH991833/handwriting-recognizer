@@ -1,5 +1,5 @@
-const C='handwriting-recognizer-v1';
-const ASSETS=['./','./index.html','./kit.css','./kit.js','./accent.css','./app.js','./styles.css','./icon.svg','./manifest.webmanifest'];
+const C='handwriting-v2';
+const ASSETS=['./','./index.html','./kit.css','./kit.js','./accent.css','./app.js','./styles.css','./icon.svg','./manifest.webmanifest','./model/model.json','./model/group1-shard1of1.bin'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(ASSETS).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{

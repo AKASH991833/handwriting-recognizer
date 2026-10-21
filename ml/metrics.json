@@ -1,0 +1,9 @@
+{
+  "test_accuracy": 0.9895,
+  "test_loss": 0.0289,
+  "test_samples": 10000,
+  "train_samples": 60000,
+  "epochs_trained": 8,
+  "framework": "TensorFlow (Keras) + tensorflowjs converter",
+  "dataset": "MNIST (keras.datasets.mnist, 60k train / 10k test)"
+}
