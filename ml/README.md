@@ -1,5 +1,8 @@
 # ML pipeline (Python)
 
+> Part of **[handwriting-recognizer](https://github.com/AKASH991833/handwriting-recognizer)** — live browser demo: https://akash991833.github.io/handwriting-recognizer/ · screenshots in the repo-root `screenshots/` folder.
+
+
 Trains the production MNIST model offline and exports it in TF.js Layers format
 for the live browser demo.
 
