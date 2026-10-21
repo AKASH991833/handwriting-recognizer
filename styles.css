@@ -1,0 +1,10 @@
+/* handwriting-recognizer specifics */
+#pad{width:100%;max-width:420px;aspect-ratio:1;border-radius:14px;border:2px solid var(--border-2);background:#0a1220;cursor:crosshair;touch-action:none}
+.prog{height:10px;border-radius:999px;background:var(--bg-soft);overflow:hidden}
+.prog-fill{height:100%;border-radius:999px;background:var(--accent);transition:width .3s}
+.pred-big{display:flex;align-items:baseline;gap:14px}
+.pred-big #pred-digit{font:800 64px/1 var(--font-disp);color:var(--accent)}
+.pb-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.pb-d{font:700 15px var(--font-mono,monospace);width:16px;text-align:center}
+.pb-track{flex:1;height:9px;border-radius:999px;background:var(--bg-soft);overflow:hidden}
+.pb-fill{height:100%;background:var(--accent);border-radius:999px}

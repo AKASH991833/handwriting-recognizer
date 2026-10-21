@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Handwriting Recognizer — Draw a Digit, Watch a CNN Learn</title>
+<meta name="description" content="A convolutional neural network trains on real MNIST data live in your browser, then recognizes the digits you draw. Free, private, no sign-up.">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kit.css"><link rel="stylesheet" href="accent.css"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-head"><div class="wrap">
+<a class="brand" href="#top"><span class="mark"><svg viewBox="0 0 512 512" fill="none"><path d="M150 350c40-120 90-180 130-180 34 0 30 56 10 96-16 32-44 60-70 84" stroke="#fff" stroke-width="30" stroke-linecap="round"/><path d="M180 400c60 10 140 6 190-30" stroke="#fff" stroke-width="26" stroke-linecap="round" opacity=".85"/></svg></span><span>Handwriting Recognizer<small>MNIST CNN · Trains live</small></span></a>
+<nav class="head-nav">
+<a href="#pad-sec">Draw</a><a href="#about">Model</a>
+<button class="icon-btn keep hidden" id="pwa-install" onclick="pkInstall()" title="Install app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg></button>
+<button class="icon-btn" onclick="pkToggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
+<svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+<svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4l1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+</button></nav>
+</div></header>
+<main id="top">
+<section class="hero"><div class="wrap">
+<span class="eyebrow">TensorFlow.js · Real MNIST · Trains in your browser</span>
+<h1>Draw. It learns. It reads.</h1>
+<p class="sub">A convolutional neural network downloads real MNIST digits, trains live in your browser while you watch the loss fall, then reads whatever digit you draw — with its true test-set accuracy on display.</p>
+<div class="cta-row"><a class="btn btn-pri" href="#pad-sec">Draw a digit</a></div>
+</div></section>
+
+<section class="section" id="pad-sec"><div class="wrap">
+<div class="sec-head"><h2>Drawing pad</h2><p id="pad-hint">The model is training — the pad unlocks when it is ready.</p></div>
+<div class="grid grid-2">
+<div class="card" style="text-align:center">
+<canvas id="pad"></canvas>
+<div style="display:flex;gap:10px;justify-content:center;margin-top:14px">
+<button class="btn btn-sec" id="clear">Clear</button>
+<button class="btn btn-pri" id="predict-btn">Recognize</button>
+</div>
+</div>
+<div>
+<div class="card hidden" id="prog-wrap">
+<h3 style="margin-top:0">Training progress</h3>
+<div class="prog"><div class="prog-fill" id="prog-bar" style="width:2%"></div></div>
+<p class="hint" id="prog-msg" style="margin-top:8px">Starting…</p>
+</div>
+<div class="card" style="margin-top:16px">
+<h3 style="margin-top:0">Prediction</h3>
+<div id="acc-pill"><span class="hint">Training not finished yet…</span></div>
+<div id="pred-card" class="hidden" style="margin-top:12px">
+<div class="pred-big"><span id="pred-digit">?</span><span class="hint" id="pred-conf"></span></div>
+<div id="pred-bars" style="margin-top:10px"></div>
+</div>
+</div>
+</div>
+</div>
+</div></section>
+
+<section class="section" id="about"><div class="wrap">
+<div class="sec-head"><h2>The model</h2><p>Small, honest, and trained right here.</p></div>
+<div class="grid grid-3">
+<div class="stat"><div class="num">4,000</div><div class="lbl">MNIST training digits</div></div>
+<div class="stat"><div class="num">1,500</div><div class="lbl">Held-out test digits</div></div>
+<div class="stat"><div class="num">2×Conv</div><div class="lbl">+ pooling, dropout, dense</div></div>
+</div>
+<div class="note" style="margin-top:18px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4m0 4h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+<span><strong>Honest limits:</strong> the model knows printed-style digits 0-9 from MNIST — big, centered strokes work best. It cannot read letters, multi-digit numbers or messy cursive, and the accuracy shown is on MNIST test digits (your handwriting may differ). Training uses a 9k subset so it finishes in about a minute on a laptop; full MNIST would score higher.</span></div>
+</div></section>
+</main>
+<footer class="site-foot"><div class="wrap cols">
+<div><div class="fbrand">Handwriting Recognizer</div>
+<p style="margin-top:8px;max-width:52ch">A CNN that trains on real MNIST data in your browser and reads the digits you draw. Free, private, no sign-up.</p>
+<p style="margin-top:10px">Runs 100% free. <span class="mono">No sign-up. No card.</span></p></div>
+<div style="text-align:right"><p>Built by <a href="https://github.com/AKASH991833" target="_blank" rel="noopener">Akash Vishwakarma</a></p>
+<p style="margin-top:6px"><a href="https://github.com/AKASH991833/handwriting-recognizer" target="_blank" rel="noopener">Source on GitHub</a></p></div>
+</div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+<script src="kit.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
